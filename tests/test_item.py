@@ -46,3 +46,11 @@ def test_apply_discount(item_one):
     Item.pay_rate = 0.5
     item_one.apply_discount()
     assert item_one.price == 500
+
+
+def test_item_repr(item_one):
+    assert repr(item_one) == "Item('Notebook', 1000, 20)"
+
+
+def test_item_str(item_one):
+    assert str(item_one) == 'Notebook'
