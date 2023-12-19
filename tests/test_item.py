@@ -1,6 +1,7 @@
 import pytest
 
 from src.item import Item
+from src.phone import Phone
 
 item_1 = Item("Notebook", 1000, 20)
 
@@ -15,8 +16,13 @@ def link_one():
     return "../src/items.csv"
 
 
+@pytest.fixture
+def phone_one():
+    return Phone("iPhone 14", 120_000, 5, 2)
+
+
 def test_item_class(item_one):
-    assert item_one.item_name == "Notebook"
+    assert item_one.name == "Notebook"
     assert item_one.price == 1000
     assert item_one.quantity == 20
 
@@ -38,8 +44,8 @@ def test_instantiate_from_csv(link_one):
 
 
 def test_item_name():
-    item_1.item_name = "СуперСмартфон"
-    assert item_1.item_name == "СуперСмарт"
+    item_1.name = "СуперСмартфон"
+    assert item_1.name == "СуперСмарт"
 
 
 def test_apply_discount(item_one):
@@ -54,3 +60,24 @@ def test_item_repr(item_one):
 
 def test_item_str(item_one):
     assert str(item_one) == 'Notebook'
+
+
+def test_phone_class(phone_one):
+    assert str(phone_one) == 'iPhone 14'
+    assert repr(phone_one) == "Phone('iPhone 14', 120000, 5, 2)"
+    assert phone_one.number_of_sim == 2
+
+
+def test_sum_phone_item(item_one, phone_one):
+    assert item_one + phone_one == 25
+    assert phone_one + phone_one == 10
+
+
+def test_set_sim_quantity_error(phone_one):
+    with pytest.raises(ValueError):
+        phone_one.number_of_sim = 0
+
+
+def test_set_sim_quantity(phone_one):
+    phone_one.number_of_sim = 2
+    assert phone_one.number_of_sim == 2

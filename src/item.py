@@ -27,14 +27,19 @@ class Item:
     def __str__(self):
         return self.__name
 
+    def __add__(self, other):
+        if not isinstance(other, Item):
+            raise ValueError
+        return self.quantity + other.quantity
+
     # "Item('Смартфон', 10000, 20)"
 
     @property
-    def item_name(self):
+    def name(self):
         return self.__name
 
-    @item_name.setter
-    def item_name(self, data):
+    @name.setter
+    def name(self, data):
         self.__name = data[:10]
 
     def calculate_total_price(self) -> float:
