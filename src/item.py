@@ -35,11 +35,11 @@ class Item:
     # "Item('Смартфон', 10000, 20)"
 
     @property
-    def name(self):
+    def item_name(self):
         return self.__name
 
-    @name.setter
-    def name(self, data):
+    @item_name.setter
+    def item_name(self, data):
         self.__name = data[:10]
 
     def calculate_total_price(self) -> float:

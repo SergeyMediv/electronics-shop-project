@@ -1,6 +1,7 @@
 import pytest
 
 from src.item import Item
+from src.keyboard import Keyboard
 from src.phone import Phone
 
 item_1 = Item("Notebook", 1000, 20)
@@ -21,8 +22,13 @@ def phone_one():
     return Phone("iPhone 14", 120_000, 5, 2)
 
 
+@pytest.fixture()
+def keyboard_one():
+    return Keyboard('Dark Project KD87A', 9600, 5)
+
+
 def test_item_class(item_one):
-    assert item_one.name == "Notebook"
+    assert item_one.item_name == "Notebook"
     assert item_one.price == 1000
     assert item_one.quantity == 20
 
@@ -44,8 +50,8 @@ def test_instantiate_from_csv(link_one):
 
 
 def test_item_name():
-    item_1.name = "СуперСмартфон"
-    assert item_1.name == "СуперСмарт"
+    item_1.item_name = "СуперСмартфон"
+    assert item_1.item_name == "СуперСмарт"
 
 
 def test_apply_discount(item_one):
@@ -78,6 +84,25 @@ def test_set_sim_quantity_error(phone_one):
         phone_one.number_of_sim = 0
 
 
+def test_value_error_phone(phone_one):
+    with pytest.raises(ValueError):
+        phone_one + 1000
+
+
+def test_value_error_item(item_one):
+    with pytest.raises(ValueError):
+        item_one + 1000
+
+
 def test_set_sim_quantity(phone_one):
     phone_one.number_of_sim = 2
     assert phone_one.number_of_sim == 2
+
+
+def test_keyboard_class(keyboard_one):
+    assert str(keyboard_one) == "Dark Project KD87A"
+    assert str(keyboard_one.language) == "EN"
+    keyboard_one.change_lang()
+    assert str(keyboard_one.language) == "RU"
+    keyboard_one.change_lang()
+    assert str(keyboard_one.language) == "EN"
