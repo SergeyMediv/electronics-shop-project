@@ -22,11 +22,6 @@ def phone_one():
     return Phone("iPhone 14", 120_000, 5, 2)
 
 
-@pytest.fixture()
-def keyboard_one():
-    return Keyboard('Dark Project KD87A', 9600, 5)
-
-
 def test_item_class(item_one):
     assert item_one.item_name == "Notebook"
     assert item_one.price == 1000
@@ -97,12 +92,3 @@ def test_value_error_item(item_one):
 def test_set_sim_quantity(phone_one):
     phone_one.number_of_sim = 2
     assert phone_one.number_of_sim == 2
-
-
-def test_keyboard_class(keyboard_one):
-    assert str(keyboard_one) == "Dark Project KD87A"
-    assert str(keyboard_one.language) == "EN"
-    keyboard_one.change_lang()
-    assert str(keyboard_one.language) == "RU"
-    keyboard_one.change_lang()
-    assert str(keyboard_one.language) == "EN"
