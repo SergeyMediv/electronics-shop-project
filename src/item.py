@@ -1,5 +1,7 @@
 import csv
 
+from src.csv_err import InstantiateCSVError, CSVCheckScript
+
 
 class Item:
     """
@@ -60,13 +62,18 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, path):
         cls.all.clear()
-        with open(path, newline='', encoding='windows-1251') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                __name = row['name']
-                price = row['price']
-                quantity = row['quantity']
-                item = cls(__name, price, quantity)
+        try:
+            csvfile = CSVCheckScript(path)
+        except InstantiateCSVError as ms:
+            print(ms.message)
+        else:
+            with open(path, newline='', encoding='windows-1251') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    __name = row['name']
+                    price = row['price']
+                    quantity = row['quantity']
+                    item = cls(__name, price, quantity)
 
     @staticmethod
     def string_to_number(string):
