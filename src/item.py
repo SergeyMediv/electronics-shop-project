@@ -65,6 +65,7 @@ class Item:
         try:
             csvfile = CSVCheckScript(path)
         except InstantiateCSVError as ms:
+            raise InstantiateCSVError
             print(ms.message)
         else:
             with open(path, newline='', encoding='windows-1251') as csvfile:
