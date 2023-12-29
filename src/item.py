@@ -1,6 +1,6 @@
 import csv
 
-from src.csv_err import InstantiateCSVError, CSVCheckScript
+from src.csv_err import InstantiateCSVError
 
 
 class Item:
@@ -63,11 +63,6 @@ class Item:
     def instantiate_from_csv(cls, path):
         cls.all.clear()
         try:
-            csvfile = CSVCheckScript(path)
-        except InstantiateCSVError as ms:
-            print(ms.message)
-            raise InstantiateCSVError
-        else:
             with open(path, newline='', encoding='windows-1251') as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
@@ -75,6 +70,10 @@ class Item:
                     price = row['price']
                     quantity = row['quantity']
                     item = cls(__name, price, quantity)
+        except KeyError:
+            raise InstantiateCSVError("Файл повреждён")
+        except FileNotFoundError:
+            raise FileNotFoundError("Нет такого файла")
 
     @staticmethod
     def string_to_number(string):
